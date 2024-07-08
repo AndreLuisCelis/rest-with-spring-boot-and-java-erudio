@@ -25,24 +25,26 @@ public class PersonController {
 	@Autowired
 	PersonService personService;
 
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(produces =  { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<PersonVO>> findAll() {
 		var persons = personService.findAll();
 		return ResponseEntity.ok(persons);
 	}
 
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<PersonVO> findById(@PathVariable(value = "id") Long id) {
 		var person = personService.findById(id);
 		return ResponseEntity.ok(person);
 	}
 
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<PersonVO> createPerson(@RequestBody() PersonVO person) {
 		return ResponseEntity.ok(personService.createPerson(person));
 	}
 
-	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<PersonVO> updatePerson(@RequestBody() PersonVO person) {
 		return ResponseEntity.ok(personService.updatePerson(person));
 	}
@@ -52,16 +54,18 @@ public class PersonController {
 		personService.deletePerson(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	/* V2 */
-	
-	@GetMapping(value = "/v2",produces = MediaType.APPLICATION_JSON_VALUE)
+
+	@GetMapping(value = "/v2", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<PersonVOV2>> findAllV2() {
 		var persons = personService.findAllV2();
 		return ResponseEntity.ok(persons);
 	}
-	
-	@PostMapping(value = "v2",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+
+	@PostMapping(value = "v2", produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<PersonVOV2> createPersonV2(@RequestBody() PersonVOV2 person) {
 		return ResponseEntity.ok(personService.createPersonV2(person));
 	}
