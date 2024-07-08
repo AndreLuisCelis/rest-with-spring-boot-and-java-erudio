@@ -19,7 +19,7 @@ import com.celisapp.data.vo.v2.PersonVOV2;
 import com.celisapp.service.PersonService;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("api/person")
 public class PersonController {
 
 	@Autowired
