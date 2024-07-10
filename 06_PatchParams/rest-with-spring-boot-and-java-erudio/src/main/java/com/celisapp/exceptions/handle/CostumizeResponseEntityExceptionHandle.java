@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.celisapp.exceptions.ExceptionResponse;
+import com.celisapp.exceptions.RequiredObjectIsNullException;
 import com.celisapp.exceptions.ResourceNotfoundException;
 
 @ControllerAdvice
@@ -29,11 +30,21 @@ public class CostumizeResponseEntityExceptionHandle extends ResponseEntityExcept
 	
 	@ExceptionHandler(ResourceNotfoundException.class)
 	public final ResponseEntity<ExceptionResponse>
-	handleBadRequestException(Exception ex, WebRequest request) {
+	handleNotFoundException(Exception ex, WebRequest request) {
 		ExceptionResponse exceptionResponse = new ExceptionResponse(
 				new Date(),
 				ex.getMessage(),
 				request.getDescription(false));
 		return new ResponseEntity<>(exceptionResponse , HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(RequiredObjectIsNullException.class)
+	public final ResponseEntity<ExceptionResponse>
+	handleBadRequestException(Exception ex, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(
+				new Date(),
+				ex.getMessage(),
+				request.getDescription(false));
+		return new ResponseEntity<>(exceptionResponse , HttpStatus.BAD_REQUEST);
 	}
 }
