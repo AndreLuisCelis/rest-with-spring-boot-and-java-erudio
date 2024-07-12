@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.celisapp.exceptions.ExceptionResponse;
+import com.celisapp.exceptions.InvalidJwtAuthenticationException;
 import com.celisapp.exceptions.RequiredObjectIsNullException;
 import com.celisapp.exceptions.ResourceNotfoundException;
 
@@ -46,5 +47,14 @@ public class CostumizeResponseEntityExceptionHandle extends ResponseEntityExcept
 				ex.getMessage(),
 				request.getDescription(false));
 		return new ResponseEntity<>(exceptionResponse , HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(InvalidJwtAuthenticationException.class)
+	public final ResponseEntity<ExceptionResponse>
+	handleInvalidJwtAuthenticationException(Exception ex, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(
+				new Date(),
+				ex.getMessage(),
+				request.getDescription(false));
+		return new ResponseEntity<>(exceptionResponse , HttpStatus.FORBIDDEN);
 	}
 }

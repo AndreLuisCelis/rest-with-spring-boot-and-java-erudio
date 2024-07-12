@@ -2,14 +2,18 @@ package com.celisapp.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.celisapp.exceptions.ResourceNotfoundException;
 import com.celisapp.service.MatchService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.websocket.server.PathParam;
 
 @RestController
+@RequestMapping("api/math")
+@Tag(name = "Math", description = "Endpoints for math operations basic")
 public class MatchController {
 	
 	@Autowired
