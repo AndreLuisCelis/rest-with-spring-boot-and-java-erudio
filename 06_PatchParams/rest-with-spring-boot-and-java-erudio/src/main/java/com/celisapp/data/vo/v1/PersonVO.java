@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 
 
-@JsonPropertyOrder({"id","address","first_name","last_name","gender"})
+@JsonPropertyOrder({"id","address","first_name","last_name","gender", "enabled"})
 public class PersonVO  extends RepresentationModel<PersonVO> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -26,15 +26,26 @@ public class PersonVO  extends RepresentationModel<PersonVO> implements Serializ
 	
 	private String gender;
 	private String address;
+	private boolean enabled;
 	
+	public boolean isEnable() {
+		return enabled;
+	}
+
+	public void setEnable(boolean enable) {
+		this.enabled = enable;
+	}
+
 	public PersonVO() {}
-	
-	public PersonVO(Long key, String firstName, String lastName,String address, String gender) {
+
+	public PersonVO(Long key, String firstName, String lastName, String gender, String address, boolean enable) {
+		super();
 		this.key = key;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.address = address;
 		this.gender = gender;
+		this.address = address;
+		this.enabled = enable;
 	}
 
 	public Long getKey() {

@@ -20,6 +20,8 @@ import com.celisapp.mapper.custom.PersonMapper;
 import com.celisapp.model.Person;
 import com.celisapp.repositories.PersonRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class PersonService {
 	
@@ -70,6 +72,42 @@ public class PersonService {
 		PersonVO personVO =  DozerMapper.parseObject(personRepository.save(personForEdit), PersonVO.class);
 		personVO.add(linkTo(methodOn(PersonController.class).findById(person.getKey())).withSelfRel());
 		return personVO;
+	}
+	
+	public PersonVO disableOrEnablePersonByPatch(Long id, boolean enabled) {
+		
+		logger.info("editing one Person verb Patch!");
+		Person personForEdit = personRepository.findById(id)
+				.orElseThrow(()-> new ResourceNotfoundException("No records found for this ID"));
+		personForEdit.setEnable(enabled);
+		PersonVO personVO =  DozerMapper.parseObject(personRepository.save(personForEdit), PersonVO.class);
+		personVO.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+		return personVO;
+	}
+	
+	@Transactional
+	public PersonVO disablePerson(Long id) {
+		
+		logger.info("Disabling one person!");
+		personRepository.disablePerson(id);
+		
+		var entity = personRepository.findById(id)
+			.orElseThrow(() -> new ResourceNotfoundException("No records found for this ID!"));
+		var vo = DozerMapper.parseObject(entity, PersonVO.class);
+		vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+		return vo;
+	}
+	
+	@Transactional
+	public PersonVO enablePerson(Long id) {
+		
+		logger.info("Disabling one person!");
+		personRepository.enablePerson(id);
+		var entity = personRepository.findById(id)
+			.orElseThrow(() -> new ResourceNotfoundException("No records found for this ID!"));
+		var vo = DozerMapper.parseObject(entity, PersonVO.class);
+		vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+		return vo;
 	}
 	
 	public void deletePerson(Long id) {
