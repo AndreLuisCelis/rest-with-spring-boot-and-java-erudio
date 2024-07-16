@@ -3,6 +3,12 @@ package com.celisapp.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,9 +58,43 @@ public class PersonController {
 		@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
 	}
 )
-	public ResponseEntity<List<PersonVO>> findAll() {
-		var persons = personService.findAll();
-		return ResponseEntity.ok(persons);
+	public ResponseEntity<PagedModel<EntityModel<PersonVO>>> findAll(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam( value = "size", defaultValue = "12" ) Integer size,
+			@RequestParam( value = "direction", defaultValue = "asc") String direction) {
+		
+		var sortDirection = "desc".equalsIgnoreCase(direction)? Direction.DESC: Direction.ASC;
+		
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"));
+		return ResponseEntity.ok(personService.findAll(pageable));
+	}
+	
+	@GetMapping(value = "/findPersonByName/{firstName}", produces =  { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@Operation(summary = "Finds all People", description = "Finds all People",
+	tags = {"People"},
+	responses = {
+			@ApiResponse(description = "Success", responseCode = "200",
+					content = {
+							@Content(
+									mediaType = "application/json",
+									array = @ArraySchema(schema = @Schema(implementation = PersonVO.class))
+									)
+			}),
+			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+			@ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+			@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+			@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
+	})
+	public ResponseEntity<PagedModel<EntityModel<PersonVO>>> findPersonByName(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam( value = "size", defaultValue = "12" ) Integer size,
+			@RequestParam( value = "direction", defaultValue = "asc") String direction,
+			@PathVariable( value = "firstName") String firstName) {
+		
+		var sortDirection = "desc".equalsIgnoreCase(direction)? Direction.DESC: Direction.ASC;
+		
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"));
+		return ResponseEntity.ok(personService.findPersonsByName(firstName, pageable));
 	}
 
 	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
@@ -139,7 +179,9 @@ public class PersonController {
 		@ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
 		@ApiResponse(description = "Internal Error", responseCode = "500", content = @Content),
 	})
-	public ResponseEntity<PersonVO> disableOrEnablePersonByPatch(@PathVariable(value = "id") Long id , @RequestParam("enabled") boolean enabled) {
+	public ResponseEntity<PersonVO> disableOrEnablePersonByPatch(
+			@PathVariable(value = "id") Long id ,
+			@RequestParam(value = "enabled",defaultValue = "true") boolean enabled) {
 		return ResponseEntity.ok(personService.disableOrEnablePersonByPatch(id, enabled));
 	}
 	

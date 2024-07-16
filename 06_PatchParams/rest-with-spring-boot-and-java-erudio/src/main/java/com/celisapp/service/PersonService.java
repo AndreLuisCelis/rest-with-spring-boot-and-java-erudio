@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import com.celisapp.controllers.PersonController;
@@ -32,13 +36,35 @@ public class PersonService {
 	@Autowired
 	private PersonMapper personMapper;
 	
-	public List<PersonVO> findAll(){
+	@Autowired
+	PagedResourcesAssembler<PersonVO> assembler;
+	
+	public PagedModel<EntityModel<PersonVO>> findAll(Pageable pageable){
 		logger.info("Finding all Peaple!");
-		var peapleVO = DozerMapper.parseListObjects(personRepository.findAll(), PersonVO.class);
-		peapleVO.stream().forEach(personVO -> {
-			personVO.add(linkTo(methodOn(PersonController.class).findById(personVO.getKey())).withSelfRel());
-			});
-		return peapleVO;
+		var paeapleEntityPage = personRepository.findAll(pageable);
+		var peaploVoPage = paeapleEntityPage.map(person -> DozerMapper.parseObject(person, PersonVO.class));
+		peaploVoPage.map(p -> 
+			p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel())
+		);
+		var link = linkTo(methodOn(PersonController.class).
+					findAll(pageable.getPageNumber(),
+							pageable.getPageSize(),
+							"asc")).withSelfRel();
+		return assembler.toModel(peaploVoPage, link);
+	}
+	
+	public PagedModel<EntityModel<PersonVO>> findPersonsByName(String firstName,Pageable pageable){
+		logger.info("Finding all Peaple!");
+		var paeapleEntityPage = personRepository.findPersonsByName(firstName, pageable);
+		var peaploVoPage = paeapleEntityPage.map(person -> DozerMapper.parseObject(person, PersonVO.class));
+		peaploVoPage.map(p -> 
+			p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel())
+		);
+		var link = linkTo(methodOn(PersonController.class).
+					findAll(pageable.getPageNumber(),
+							pageable.getPageSize(),
+							"asc")).withSelfRel();
+		return assembler.toModel(peaploVoPage, link);
 	}
 	
 	public PersonVO findById( Long id) {
