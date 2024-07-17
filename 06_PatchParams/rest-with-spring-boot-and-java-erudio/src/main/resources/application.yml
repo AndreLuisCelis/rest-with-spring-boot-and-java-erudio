@@ -1,3 +1,6 @@
+file:
+  upload-dir: /Users/andre.celis/Desktop/Desenvolvimento/rest-with-spring-boot-and-java-erudio/UploadDir
+
 security:
   jwt:
     token:
@@ -17,6 +20,13 @@ spring:
       hibernate:
         #dialect: org.hibernate.dialect.MYSQLDialect
     show-sql: false
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+    
 springdoc:
     pathsToMatch: 
       - /api/**
