@@ -9,32 +9,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-	/* MEDIATYPE WITH QUERY PARANS
-	 * @Override public void
-	 * configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-	 * configurer.favorParameter(true)
-	 * .parameterName("mediaType").ignoreAcceptHeader(true)
-	 * .useRegisteredExtensionsOnly(false)
-	 * .defaultContentType(MediaType.APPLICATION_JSON) .mediaType("json",
-	 * MediaType.APPLICATION_JSON) .mediaType("xml", MediaType.APPLICATION_XML); }
-	 */
-	
-	
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
-			.allowedOrigins("*")
-			.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
-	}
-	
-	@Override
-	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-		configurer.favorParameter(false)
-			.ignoreAcceptHeader(false)
-			.useRegisteredExtensionsOnly(false)
-			.defaultContentType(MediaType.APPLICATION_JSON)
-				.mediaType("json", MediaType.APPLICATION_JSON)
-				.mediaType("xml", MediaType.APPLICATION_XML);
-	}
-		
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+            .allowedOrigins("http://localhost:3000", "http://localhost:8080", "http://localhost")
+            .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+            .allowedHeaders("Authorization", "Content-Type", "X-Requested-With", "Accept", "Origin", "Cache-Control", "Content-Range", "Range");
+    }
+    
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer.favorParameter(false)
+            .ignoreAcceptHeader(false)
+            .useRegisteredExtensionsOnly(false)
+            .defaultContentType(MediaType.APPLICATION_JSON)
+            .mediaType("json", MediaType.APPLICATION_JSON)
+            .mediaType("xml", MediaType.APPLICATION_XML);
+    }
 }

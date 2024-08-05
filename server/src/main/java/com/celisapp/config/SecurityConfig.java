@@ -1,6 +1,7 @@
 package com.celisapp.config;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,31 +26,31 @@ import com.celisapp.security.jwt.JwtTokenProvider;
 @Configuration
 public class SecurityConfig {
 
-	@Autowired
-	private JwtTokenProvider tokenProvider;
-	
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		Map<String, PasswordEncoder> encoders = new HashMap<>();
-				
-		Pbkdf2PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder("", 8, 185000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
-		encoders.put("pbkdf2", pbkdf2Encoder);
-		DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("pbkdf2", encoders);
-		passwordEncoder.setDefaultPasswordEncoderForMatches(pbkdf2Encoder);
-		return passwordEncoder;
-	}
-	
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+    
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
+                
+        Pbkdf2PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder("", 8, 185000, SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
+        encoders.put("pbkdf2", pbkdf2Encoder);
+        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("pbkdf2", encoders);
+        passwordEncoder.setDefaultPasswordEncoderForMatches(pbkdf2Encoder);
+        return passwordEncoder;
+    }
+    
     @Bean
     AuthenticationManager authenticationManagerBean(
-    		AuthenticationConfiguration authenticationConfiguration)
+            AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    	 //@formatter:off
-    	JwtTokenFilter customFilter = new JwtTokenFilter(tokenProvider);
+        //@formatter:off
+        JwtTokenFilter customFilter = new JwtTokenFilter(tokenProvider);
         return http
                 .httpBasic(basic -> basic.disable())
                 .csrf(csrf -> csrf.disable())
@@ -67,11 +68,15 @@ public class SecurityConfig {
                                 .requestMatchers("/api/**").authenticated()
                                 .requestMatchers("/users").denyAll()
                 )
-                .cors(cors -> {})
+                .cors(cors -> cors.configurationSource(request -> {
+                    var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
+                    corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:8080", "http://localhost")); // Adicione suas origens permitidas
+                    corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+                    corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "Accept", "Origin", "Cache-Control", "Content-Range", "Range"));
+                    corsConfiguration.setAllowCredentials(true);
+                    return corsConfiguration;
+                }))
                 .build();
         //@formatter:on
     }
-    
-    
-    
 }
