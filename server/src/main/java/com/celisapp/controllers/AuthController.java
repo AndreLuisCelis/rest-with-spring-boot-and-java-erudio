@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.celisapp.data.vo.v1.security.AccountCredentialsVO;
+import com.celisapp.data.vo.v1.security.NewUserVO;
 import com.celisapp.service.AuthServices;
+import com.celisapp.service.UserServices;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,6 +29,9 @@ public class AuthController {
 	@Autowired
 	AuthServices authServices;
 	
+	@Autowired
+	UserServices userServices;
+	
 	@SuppressWarnings("rawtypes")
 	@Operation(summary = "Authenticates a user and returns a token")
 	@PostMapping(value = "/signin")
@@ -36,6 +41,16 @@ public class AuthController {
 		var token = authServices.signin(data);
 		if (token == null) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
 		return token;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Operation(summary = "Create a user")
+	@PostMapping(value = "/createUser")
+	public ResponseEntity createUser(@RequestBody NewUserVO data) {
+		if (checkIfParamsIsNotNull(data))
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
+		var user = userServices.createUser(data);
+		return ResponseEntity.ok(user);
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -58,5 +73,11 @@ public class AuthController {
 	private boolean checkIfParamsIsNotNull(AccountCredentialsVO data) {
 		return data == null || data.getUsername() == null || data.getUsername().isBlank()
 				 || data.getPassword() == null || data.getPassword().isBlank();
+	}
+	
+	private boolean checkIfParamsIsNotNull(NewUserVO data) {
+		return data == null || data.getUsername() == null || data.getUsername().isBlank()
+				 || data.getPassword() == null || data.getPassword().isBlank()
+				 || data.getEmail() == null || data.getEmail().isBlank();
 	}
 }

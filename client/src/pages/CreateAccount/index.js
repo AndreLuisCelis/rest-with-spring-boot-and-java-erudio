@@ -5,31 +5,34 @@ import './styles.css';
 import api from '../../services/api'
 
 import logoImage from '../../assets/logo.svg'
+// import padlock from '../../assets/padlock.png'
 
-export default function Login() {
+export default function CreateAccount() {
 
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    // const [confiPmpassword, setconfirmPassword] = useState('');
 
     const history = useHistory();
 
-    async function login(e){
+    async function cadastrar(e){
         e.preventDefault();
 
         const data = {
             username,
+            email,
             password,
         };
 
         try {
-            const response = await api.post('auth/signin', data);
+            const response = await api.post('auth/createUser', data);
 
-            localStorage.setItem('username', username);
-            localStorage.setItem('accessToken', response.data.accessToken
-);
+            // localStorage.setItem('username', username);
+            // localStorage.setItem('accessToken', response.data.accessToken);
             console.log(response); 
 
-            history.push('/books')
+            history.push('/')
         } catch (err) {
             alert('Login failed! Try again!');
         }
@@ -39,9 +42,9 @@ export default function Login() {
         <div className="login-container">
             <section className="form">
                 <img src={logoImage} alt="Erudio Logo"/>
-                <form onSubmit={login}>
-                    <h2>Access your Account or: 
-                        <Link to='/createAccount'>Create Account</Link></h2>
+                <form onSubmit={cadastrar}>
+                    <h2>Create Account or: <Link to='/'>Sign in</Link></h2>
+                    
                     <input
                         placeholder="Username"
                         value={username}
@@ -53,7 +56,13 @@ export default function Login() {
                         onChange={e => setPassword(e.target.value)}
                     />
 
-                    <button className="button" type="submit">Login</button>
+                    <input
+                         placeholder="Email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                    />
+
+                    <button className="button" type="submit">Create</button>
                 </form>
 
             </section>

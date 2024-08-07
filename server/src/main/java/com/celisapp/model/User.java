@@ -35,6 +35,17 @@ public class User implements UserDetails, Serializable {
 	@Column(name = "full_name")
 	private String fullName;
 	
+	@Column(name = "email")
+	private String email;
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Column(name = "password")
 	private String password;
 	
