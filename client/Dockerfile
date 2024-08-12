@@ -23,6 +23,7 @@ FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 
 COPY ./nginx.conf ./conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf 
 
 # Expor a porta que o Nginx usará
 EXPOSE 80
