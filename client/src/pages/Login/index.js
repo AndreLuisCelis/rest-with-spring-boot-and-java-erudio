@@ -10,6 +10,10 @@ export default function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    console.log('--->', apiUrl);
+    
 
     const history = useHistory();
 
@@ -40,6 +44,7 @@ export default function Login() {
             <section className="form">
                 <img src={logoImage} alt="Erudio Logo"/>
                 <form onSubmit={login}>
+                    {apiUrl}
                     <h2>Access your Account or: 
                         <Link to='/createAccount'>Create Account</Link></h2>
                     <input

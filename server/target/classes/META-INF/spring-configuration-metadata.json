@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "file",
+      "type": "com.celisapp.config.FileStorageConfig",
+      "sourceType": "com.celisapp.config.FileStorageConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "file.upload-dir",
+      "type": "java.lang.String",
+      "sourceType": "com.celisapp.config.FileStorageConfig"
+    }
+  ],
+  "hints": []
+}

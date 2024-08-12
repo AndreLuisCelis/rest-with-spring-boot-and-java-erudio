@@ -14,6 +14,8 @@ RUN npm install
 COPY . .
 
 # Construir a aplicação
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
 RUN npm run build
 
 # Usar uma imagem oficial do Nginx para servir a aplicação
@@ -23,6 +25,7 @@ FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 
 COPY ./nginx.conf ./conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf 
 
 # Expor a porta que o Nginx usará
 EXPOSE 80
