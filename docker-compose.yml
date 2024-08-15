@@ -43,24 +43,24 @@ services:
     volumes:
       - uploads:/user/uploads
 
-  react-app:
-    image: celisapp/react-app
-    restart: always
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-      args:
-        REACT_APP_API_URL: http://rest-with-spring-boot-erudio:8080
-    environment:
-      - REACT_APP_API_URL=$REACT_APP_API_URL
-    ports:
-      - "5000:80"
-    expose:
-      - 5000
-    depends_on:
-      - rest-with-spring-boot-erudio
-    networks:
-      - erudio-network
+  # react-app:
+  #   image: celisapp/react-app
+  #   restart: always
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #     args:
+  #       REACT_APP_API_URL: http://rest-with-spring-boot-erudio:8080
+  #   environment:
+  #     - REACT_APP_API_URL=$REACT_APP_API_URL
+  #   ports:
+  #     - "5000:80"
+  #   expose:
+  #     - 5000
+  #   depends_on:
+  #     - rest-with-spring-boot-erudio
+  #   networks:
+  #     - erudio-network
 
 networks:
   erudio-network:
