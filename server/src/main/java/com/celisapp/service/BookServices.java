@@ -48,7 +48,7 @@ private Logger logger = Logger.getLogger(BookServices.class.getName());
 	
 	public BookVO create(BookVO book) {
 
-		if (book == null) throw new RequiredObjectIsNullException();
+		if (book.getAuthor() == null) throw new RequiredObjectIsNullException();
 		
 		logger.info("Creating one book!");
 		var entity = DozerMapper.parseObject(book, Book.class);

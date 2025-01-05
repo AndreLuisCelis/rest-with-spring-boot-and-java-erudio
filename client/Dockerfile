@@ -15,7 +15,7 @@ COPY . .
 
 # Construir a aplicação
 ARG REACT_APP_API_URL
-ENV REACT_APP_API_URL=$REACT_APP_API_URL
+ENV REACT_APP_API_URL=http://api-spring.us-east-1.elasticbeanstalk.com
 RUN npm run build
 
 # Usar uma imagem oficial do Nginx para servir a aplicação
