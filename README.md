@@ -115,4 +115,4 @@ Este projeto é licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE
 
 ## Contato
 
-Para dúvidas ou mais informações, entre em contato via [LinkedIn](https://www.linkedin.com/in/andre-luis-celis/).
+Para dúvidas ou mais informações, entre em contato via [LinkedIn](https://www.linkedin.com/in/andr%C3%A9-luis-celis-10668b14b/).
