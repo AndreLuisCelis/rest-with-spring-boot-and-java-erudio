@@ -59,6 +59,7 @@ public class SecurityConfig {
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         authorizeHttpRequests -> authorizeHttpRequests
+                                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                                 .requestMatchers(
                                         "/auth/signin",
                                         "/auth/createUser",
@@ -71,9 +72,9 @@ public class SecurityConfig {
                 )
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
-                    corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:8080", "http://localhost", "http://app-client-react.us-east-1.elasticbeanstalk.com")); // Adicione suas origens permitidas
+                    corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5000", "http://localhost:8080", "http://localhost", "http://app-client-react.us-east-1.elasticbeanstalk.com")); // Adicione suas origens permitidas
                     corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-                    corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "Accept", "Origin", "Cache-Control", "Content-Range", "Range"));
+                    corsConfiguration.setAllowedHeaders(List.of("*"));
                     corsConfiguration.setAllowCredentials(true);
                     return corsConfiguration;
                 }))

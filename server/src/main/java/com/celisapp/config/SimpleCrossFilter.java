@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@Component
+//@Component // Desabilitado - usando configuração CORS do SecurityConfig
 public class SimpleCrossFilter extends HttpFilter {
 
 	private static final long serialVersionUID = 1L;

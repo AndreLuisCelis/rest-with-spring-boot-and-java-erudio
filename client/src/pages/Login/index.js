@@ -41,30 +41,42 @@ export default function Login() {
 
     return (
         <div className="login-container">
-            <section className="form">
-                <img src={logoImage} alt="Erudio Logo"/>
+            <section className="form-card">
+                <div className="form-branding">
+                    <img src={logoImage} alt="Erudio Logo" />
+                    <div>
+                        <h1>Welcome Back</h1>
+                        <p>Sign in to continue and manage your books with ease.</p>
+                    </div>
+                </div>
+
                 <form onSubmit={login}>
-                    {apiUrl}
-                    <h2>Access your Account or: 
-                        <Link to='/createAccount'>Create Account</Link></h2>
-                    <input
-                        placeholder="Username"
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                    />
-                    <input
-                        type="password" placeholder="Password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                    />
+                    <div className="form-group">
+                        <label>Username</label>
+                        <input
+                            placeholder="Enter your username"
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                        />
+                    </div>
 
                     <button className="button" type="submit">Login</button>
+
+                    <p className="create-account">
+                        Don&apos;t have an account? <Link to="/createAccount">Create one</Link>
+                    </p>
                 </form>
-
             </section>
-
-            {/* <img src={padlock} alt="Login"/> */}
-
         </div>
     )
 

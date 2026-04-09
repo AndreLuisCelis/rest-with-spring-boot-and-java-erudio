@@ -1,96 +1,141 @@
 .book-container {
     width: 100%;
-    max-width: 1180px;
-    padding: 0 30px;
-    margin: 32px auto;
+    max-width: 1200px;
+    padding: 40px 30px;
+    margin: 0 auto;
 }
 
-.book-container header{
+.book-container header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid #e2e8f0;
 }
 
-.book-container header span{
-    font-size: 20px;
-    margin-left: 24px;
+.book-container header img {
+    height: 56px;
+    width: auto;
 }
 
-.book-container header span strong{
-    color: #251FC5;
+.book-container header span {
+    font-size: 18px;
+    margin-left: 20px;
+    color: #0f172a;
 }
 
-.book-container header img{
-    height: 64px;
+.book-container header span strong {
+    color: #4338ca;
+    font-weight: 700;
 }
 
-.book-container header a{
+.book-container header a {
     width: 260px;
-    margin-left: auto;
-    margin-top: 0;
+    margin: 0;
 }
 
-.book-container header button{
-    height: 60px;
-    width: 60px;
-    border-radius: 4px;
-    border: 1px solid #DCDCE6;
+.book-container header button {
+    height: 48px;
+    width: 48px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
     background: transparent;
+    color: #0f172a;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
     margin-left: 16px;
-    transition: border-color 0.5s;
 }
 
-.book-container header button:hover{
-    border-color: #251FC5;
+.book-container header button:hover {
+    border-color: #4338ca;
+    background-color: rgba(67, 56, 202, 0.1);
+    color: #4338ca;
+    transform: translateY(-2px) rotate(5deg);
+    box-shadow: 0 4px 12px rgba(67, 56, 202, 0.15);
 }
 
 .book-container h1 {
-    margin-top: 80px;
-    margin-bottom: 24px;
+    font-size: 32px;
+    color: #0f172a;
+    margin-bottom: 32px;
+    font-weight: 700;
 }
 
 .book-container ul {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     grid-gap: 24px;
     list-style: none;
 }
 
-.book-container ul li{
-    background: #ffffff;
-    padding: 24px;
-    border-radius: 8px;
+.book-container ul li {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 28px;
     position: relative;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.book-container ul li:hover {
+    border-color: #4338ca;
+    box-shadow: 0 12px 32px rgba(67, 56, 202, 0.2);
+    transform: translateY(-6px) scale(1.02);
+    background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
 }
 
 .book-container ul li button {
     position: absolute;
-    right: 24px;
-    top: 24px;
+    right: 20px;
+    top: 20px;
     border: 0;
-    background: transparent;  
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
 }
 
-.book-container ul li button + button{
-    top: 50px;  
+.book-container ul li button:hover {
+    color: #4338ca;
+    background-color: rgba(67, 56, 202, 0.1);
 }
 
-.book-container ul li button:hover{
-    opacity: 0.8;  
+.book-container ul li button + button {
+    top: 60px;
 }
 
-.book-container ul li strong{
+.book-container ul li button + button:hover {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.book-container ul li strong {
     display: block;
     margin-bottom: 16px;
-    color: #41414D;
+    color: #0f172a;
+    font-size: 18px;
+    font-weight: 700;
 }
 
-.book-container ul li p + strong{
-    margin-top: 32px;
-
+.book-container ul li p + strong {
+    margin-top: 24px;
 }
 
 .book-container ul li p {
-    color: #737380;
-    line-height: 21px;
-    font-size: 16px;
+    color: #64748b;
+    line-height: 1.6;
+    font-size: 14px;
+    margin: 0;
 }

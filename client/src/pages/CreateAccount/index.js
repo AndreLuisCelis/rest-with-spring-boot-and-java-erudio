@@ -40,35 +40,53 @@ export default function CreateAccount() {
 
     return (
         <div className="login-container">
-            <section className="form">
-                <img src={logoImage} alt="Erudio Logo"/>
+            <section className="form-card">
+                <div className="form-branding">
+                    <img src={logoImage} alt="Library Logo" />
+                </div>
+
                 <form onSubmit={cadastrar}>
-                    <h2>Create Account or: <Link to='/'>Sign in</Link></h2>
-                    
-                    <input
-                        placeholder="Username"
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                    />
-                    <input
-                        type="password" placeholder="Password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                    />
+                    <div className="form-header">
+                        <h1>Create Account</h1>
+                        <p>Join our community and start managing your books</p>
+                    </div>
 
-                    <input
-                         placeholder="Email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                    />
+                    <div className="form-group">
+                        <label>Username</label>
+                        <input
+                            placeholder="Choose your username"
+                            value={username}
+                            onChange={e => setUsername(e.target.value)}
+                        />
+                    </div>
 
-                    <button className="button" type="submit">Create</button>
+                    <div className="form-group">
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            placeholder="Create a password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                        />
+                    </div>
+
+                    <button className="button" type="submit">Create Account</button>
+
+                    <p className="form-footer">
+                        Already have an account? <Link to="/">Sign in here</Link>
+                    </p>
                 </form>
-
             </section>
-
-            {/* <img src={padlock} alt="Login"/> */}
-
         </div>
     )
 
